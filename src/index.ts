@@ -10,8 +10,13 @@ const startServer = async () => {
   try {
     await connectDB();
     setRoutes(server);
-    await server.listen(3000);
-    server.log.info(`Server listening on http://localhost:3000`);
+
+    server.get("/", async () => {
+      return { status: "ok", message: "Fastify API is running 🚀" };
+    });
+
+    await server.listen({ port: 3000, host: "0.0.0.0" });
+    server.log.info(`Server listening on http://0.0.0.0:3000`);
   } catch (err) {
     server.log.error(err);
     process.exit(1);
