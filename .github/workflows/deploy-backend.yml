@@ -1,0 +1,24 @@
+name: Deploy Node.js Backend
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "backend/**"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure kubectl
+        run: |
+          mkdir -p $HOME/.kube
+          echo "${{ secrets.KUBECONFIG_DATA }}" | base64 -d > $HOME/.kube/config
+
+      - name: Restart backend deployment
+        run: |
+          kubectl rollout restart deployment posts-crud
