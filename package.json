@@ -27,9 +27,11 @@
   "dependencies": {
     "dotenv": "^17.2.3",
     "fastify": "^3.29.5",
+    "joi": "^18.0.1",
     "mongoose": "^5.10.0"
   },
   "devDependencies": {
+    "@types/joi": "^17.2.2",
     "mongoose-schema-jsonschema": "^1.4.7",
     "nodemon": "^2.0.0",
     "ts-node": "^10.9.2",
