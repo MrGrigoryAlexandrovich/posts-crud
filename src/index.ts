@@ -12,7 +12,7 @@ const startServer = async () => {
     setRoutes(server);
 
     server.get("/", async () => {
-      return { status: "ok", message: "Posts CRUD API is running 🚀" };
+      return { status: "ok", message: "Posts API is running 🚀" };
     });
 
     await server.listen({ port: 3000, host: "0.0.0.0" });
