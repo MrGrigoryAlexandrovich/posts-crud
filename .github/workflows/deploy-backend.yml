@@ -1,9 +1,8 @@
-name: Deploy Backend to Hetzner K3s
+name: Deploy Backend to Hetzner via SSH
 
 on:
   push:
-    branches:
-      - master
+    branches: [master]
     paths:
       - "**/*.ts"
       - "Dockerfile"
@@ -29,11 +28,13 @@ jobs:
           docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/posts-crud:latest .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/posts-crud:latest
 
-      - name: Setup kubectl
-        run: |
-          mkdir -p $HOME/.kube
-          echo "${{ secrets.KUBECONFIG_DATA }}" | base64 -d > $HOME/.kube/config
-
-      - name: Restart backend deployment
-        run: |
-          kubectl rollout restart deployment posts-crud
+      - name: Restart backend on Hetzner via SSH
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            export KUBECONFIG=/etc/rancher/k3s/k3s.yaml
+            kubectl rollout restart deployment posts-crud -n default
+            kubectl rollout status deployment posts-crud -n default
