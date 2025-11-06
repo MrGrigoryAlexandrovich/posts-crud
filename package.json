@@ -4,8 +4,9 @@
   "description": "Node.js (Fastify) MongoDB CRUD API",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.ts",
-    "dev": "nodemon src/index.ts"
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
