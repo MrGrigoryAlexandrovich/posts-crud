@@ -1,18 +1,16 @@
 import mongoose from "mongoose";
 
 const connectDB = async () => {
+  const uri = process.env.MONGODB_URI!;
   try {
-    const uri = process.env.MONGODB_URI;
-    if (!uri) {
-      throw new Error("❌ MONGODB_URI is not defined in environment variables");
-    }
-
+    console.log("🔗 Connecting to MongoDB...");
     await mongoose.connect(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+      serverSelectionTimeoutMS: 10000, // koliko dugo čeka da pronađe primarni node
+      socketTimeoutMS: 45000, // koliko dugo čeka na odgovor
+      connectTimeoutMS: 10000, // koliko dugo pokušava da se spoji
+    } as mongoose.ConnectOptions); // 🔥 eksplicitno castanje tipa
 
-    console.log("✅ MongoDB connected");
+    console.log("✅ MongoDB connected successfully!");
   } catch (error) {
     console.error("❌ MongoDB connection error:", error);
     process.exit(1);
