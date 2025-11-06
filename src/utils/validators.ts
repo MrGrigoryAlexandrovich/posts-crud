@@ -1,4 +1,4 @@
-import { ObjectSchema } from 'joi';
+import Joi, { ObjectSchema } from "joi";
 
 const postSchema: ObjectSchema = Joi.object({
   title: Joi.string().min(1).required(),
