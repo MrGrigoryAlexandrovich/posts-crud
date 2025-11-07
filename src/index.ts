@@ -11,24 +11,15 @@ const server = fastify({ logger: true });
 const startServer = async () => {
   try {
     await connectDB();
-
-    // 🔥 Full open CORS config
     server.register(cors, {
-      origin: "*", // dozvoli sve izvore
-      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // dozvoli sve HTTP metode
-      allowedHeaders: ["Content-Type", "Authorization"], // dozvoli tipične headere
+      origin: "*",
+      methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+      allowedHeaders: ["Content-Type", "Authorization"],
     });
-
-    // ✅ health check ruta
     server.get("/", async () => ({
       status: "ok",
       message: "API is running 🚀",
     }));
-
-    // ✅ tvoje rute
-    setRoutes(server);
-
-    // ✅ fallback za preflight OPTIONS (nije obavezno, ali pomaže u nekim browserima)
     server.options("/*", (_, reply) => {
       reply
         .header("Access-Control-Allow-Origin", "*")
@@ -36,7 +27,7 @@ const startServer = async () => {
         .header("Access-Control-Allow-Headers", "Content-Type, Authorization")
         .send();
     });
-
+    setRoutes(server);
     await server.listen({ port: 3000, host: "0.0.0.0" });
     server.log.info(`✅ Server listening on http://0.0.0.0:3000`);
   } catch (err) {
