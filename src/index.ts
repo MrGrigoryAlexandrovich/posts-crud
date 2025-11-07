@@ -2,6 +2,7 @@ import fastify from "fastify";
 import dotenv from "dotenv";
 import connectDB from "./connection/mongoose";
 import { setRoutes } from "./routes/posts";
+import cors from "@fastify/cors";
 
 const server = fastify({ logger: true });
 dotenv.config();
@@ -9,6 +10,11 @@ dotenv.config();
 const startServer = async () => {
   try {
     await connectDB();
+
+    await server.register(cors, {
+      origin: true,
+    });
+
     setRoutes(server);
 
     server.get("/", async () => {

@@ -25,6 +25,7 @@
   },
   "homepage": "https://github.com/MrGrigoryAlexandrovich/posts-crud#readme",
   "dependencies": {
+    "@fastify/cors": "^11.1.0",
     "dotenv": "^17.2.3",
     "fastify": "^3.29.5",
     "joi": "^18.0.1",
